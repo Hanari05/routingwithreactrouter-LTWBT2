@@ -41,18 +41,7 @@ npm start
 | Responsive | Tailwind `sm:`, `md:`, `lg:` trong các page/component |
 | Loading, 404 | `app/projects/[id]/loading.jsx`, `app/not-found.jsx` |
 
-## Từ bài React cũ sang Next.js
-
-- `src/pages/Home.jsx` → `app/page.jsx`.
-- `src/pages/About.jsx` → `app/about/page.jsx` và hai route con.
-- `src/pages/Contact.jsx` → `app/contact/page.jsx` + ContactForm.
-- Header/footer trong `App.jsx` → Navbar/Footer dùng chung ở root layout.
-- Bỏ BrowserRouter, Routes, Route và Vite. Thư mục `app` xác định URL.
-- CSS giữ màu chủ đạo cũ; bố cục dùng Tailwind.
-- `params` của Next.js 16 là Promise nên dynamic/catch-all page dùng `await params`.
-- `generateStaticParams` dựng sẵn các trang đã biết; ID hoặc ghi chép không có dữ liệu gọi `notFound()`.
-
-## Chỉnh nội dung
+## Nội dung
 
 - `data/portfolio.js`: thông tin cá nhân, kỹ năng và các dự án. Dữ liệu truyền vào card qua props.
 - `data/docs.js`: nội dung ghi chép; `slug` là mảng các cấp URL.
@@ -73,16 +62,6 @@ Client Component không có nghĩa chỉ dựng HTML trong trình duyệt: Next.
 5. Form trống/email sai phải bị chặn; họ tên chỉ có khoảng trắng phải báo lỗi; nhập đúng phải hiện thông báo demo và xóa form.
 6. Thu cửa sổ xuống 375px: menu xuống dòng, thẻ và form về một cột.
 
-## Đưa vào repo hiện có
-
-Bản React cũ nằm trên nhánh `submission/N23DCPT019-NguyenNgocGiaHan`. Nên tạo nhánh mới trước khi thay mã:
-
-```bash
-git switch submission/N23DCPT019-NguyenNgocGiaHan
-git switch -c submission-nextjs/N23DCPT019-NguyenNgocGiaHan
-```
-
-ZIP là dự án thay thế hoàn chỉnh. Trong thư mục repo, xóa `src/`, `index.html`, `vite.config.js` của Vite cũ rồi chép nội dung ZIP vào; giữ thư mục `.git`. Nếu có `node_modules` cũ, xóa và cài lại. Không chép cả thư mục bao ngoài làm lồng dự án.
 
 Sau khi chạy thử:
 
