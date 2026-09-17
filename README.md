@@ -1,90 +1,104 @@
+# Gia Hân — Portfolio Next.js
 
-# Demo Routing
+Nâng cấp từ bài React Router ba trang của Nguyễn Ngọc Gia Hân, giữ giao diện tối tím–hồng và font Arial hỗ trợ tiếng Việt. Dùng JavaScript/JSX, Next.js App Router và Tailwind CSS 4.
 
-Demo sử dụng React và React Router.
+## Chạy trên máy
 
-*Những thứ cần tải:
+Cần Node.js >= 20.9 (khuyến nghị bản LTS).
 
-_Cài Node.js (Cài trên web)
+```bash
+npm install
+npm run dev
+```
 
-_Cài npm (cài trên visual studio code)
-"npm install"
+Mở http://localhost:3000. Chạy trong thư mục có `package.json`.
 
-## Các trang
+```bash
+npm run lint
+npm run build
+npm start
+```
 
-- Trang chủ
-- Giới thiệu
-- Liên hệ
+`npm start` cần chạy `npm run build` trước. File lock được kèm theo; có thể dùng `npm ci` để cài đúng phiên bản đã khóa.
 
-1. Mục tiêu
+## Đối chiếu yêu cầu
 
-Sinh viên thực hành xây dựng một website React đơn giản sử dụng React Router để điều hướng giữa các trang.
-Sau khi hoàn thành, sinh viên cần biết cách:
-Tạo project React bằng Vite.
-Tạo các React Component.
-Cài đặt và sử dụng react-router-dom.
-Sử dụng BrowserRouter, Routes, Route, Link.
-Tạo nhiều trang trong một ứng dụng React.
-Sử dụng CSS để thiết kế giao diện.
+| Yêu cầu | File / đường dẫn |
+| --- | --- |
+| Home: thông tin, kỹ năng, dự án | `app/page.jsx` — `/` |
+| About | `app/about/page.jsx` — `/about` |
+| Nested routing | `/about/education`, `/about/experience`; bố cục con `app/about/layout.jsx` |
+| Skills dùng component + props | `app/skills/page.jsx`, `components/SkillCard.jsx` |
+| Array + map cho Projects | `data/portfolio.js`, `app/projects/page.jsx`, `components/ProjectCard.jsx` |
+| Dynamic routing | `app/projects/[id]/page.jsx` — `/projects/1`, `/projects/2`, `/projects/3` |
+| Catch-all routing | `app/docs/[...slug]/page.jsx` — `/docs/react`, `/docs/react/components`, `/docs/react/components/props` |
+| Form tương tác | `components/ContactForm.jsx`: `use client`, `useState`, `onChange`, `onSubmit` |
+| String, Number, Boolean, Array props | `components/ProfileIntro.jsx`, được truyền từ `app/about/page.jsx` |
+| Server Components | Các page, root layout, SectionTitle, SkillCard, ProjectCard |
+| Client Components | ContactForm và Navbar (đánh dấu menu đang xem bằng usePathname) |
+| Layout chung | `app/layout.jsx`: Navbar, main + children, Footer |
+| Navigation | `next/link` cho các đường dẫn nội bộ |
+| Responsive | Tailwind `sm:`, `md:`, `lg:` trong các page/component |
+| Loading, 404 | `app/projects/[id]/loading.jsx`, `app/not-found.jsx` |
 
-<img width="258" height="34" alt="Screenshot 2026-09-03 at 04 50 21" src="https://github.com/user-attachments/assets/94ad0982-7407-4450-9619-a308c6dd6446" />
+## Từ bài React cũ sang Next.js
 
-Sử dụng Git và GitHub để nộp bài.
+- `src/pages/Home.jsx` → `app/page.jsx`.
+- `src/pages/About.jsx` → `app/about/page.jsx` và hai route con.
+- `src/pages/Contact.jsx` → `app/contact/page.jsx` + ContactForm.
+- Header/footer trong `App.jsx` → Navbar/Footer dùng chung ở root layout.
+- Bỏ BrowserRouter, Routes, Route và Vite. Thư mục `app` xác định URL.
+- CSS giữ màu chủ đạo cũ; bố cục dùng Tailwind.
+- `params` của Next.js 16 là Promise nên dynamic/catch-all page dùng `await params`.
+- `generateStaticParams` dựng sẵn các trang đã biết; ID hoặc ghi chép không có dữ liệu gọi `notFound()`.
 
-2. Đề bài
-Hãy xây dựng một website "My Profile" bằng React.
-Website phải có 3 trang chính:
-Trang	URL	Component
+## Chỉnh nội dung
 
-Trang chủ	/	Home.jsx
-Giới thiệu	/about	About.jsx
-Liên hệ	/contact	Contact.jsx
+- `data/portfolio.js`: thông tin cá nhân, kỹ năng và các dự án. Dữ liệu truyền vào card qua props.
+- `data/docs.js`: nội dung ghi chép; `slug` là mảng các cấp URL.
+- `app/about/education/page.jsx`, `app/about/experience/page.jsx`: học vấn và kinh nghiệm.
+- `app/globals.css`: màu sắc, font và vài class dùng chung.
+- `source: null` ở dự án nghĩa là chưa cung cấp link mã nguồn; thêm URL thật để hiện nút GitHub.
 
-<img width="259" height="193" alt="Screenshot 2026-09-03 at 04 35 41" src="https://github.com/user-attachments/assets/293055fb-1f8e-46e8-8be5-ab08c50a1a33" />
+Form chỉ minh họa tương tác, kiểm tra required/email và khoảng trắng. Không gửi email, không lưu dữ liệu và không cần API key. Thông báo trên giao diện nói rõ điều này. Muốn liên hệ thật, dùng liên kết email.
 
-<img width="1415" height="667" alt="Screenshot 2026-09-03 at 11 58 19" src="https://github.com/user-attachments/assets/5a076d2d-9f60-4ca6-8859-4ef1925ebbcd" />
+Client Component không có nghĩa chỉ dựng HTML trong trình duyệt: Next.js có thể dựng HTML ban đầu trên server, sau đó hydrate để xử lý tương tác.
 
-3.Yêu cầu React Router
-Sinh viên bắt buộc sử dụng React Router.
-Trong App.jsx phải sử dụng:
-BrowserRouter
-Routes
-Route
-Link
+## Kiểm tra thủ công
 
-<img width="317" height="26" alt="Screenshot 2026-09-03 at 12 01 23" src="https://github.com/user-attachments/assets/3071d8ef-5da6-4849-a127-f5c42c31c843" />
+1. Mở mọi mục menu, kiểm tra trang chủ và các liên kết About con.
+2. Mở `/projects/1`, `/projects/2`, `/projects/3`: nội dung phải khác nhau.
+3. Mở ba cấp `/docs/react/components/props`, thử breadcrumb quay về cấp cha.
+4. Mở `/projects/999`, `/docs/khong-ton-tai`, `/khong-ton-tai`: hiện trang 404.
+5. Form trống/email sai phải bị chặn; họ tên chỉ có khoảng trắng phải báo lỗi; nhập đúng phải hiện thông báo demo và xóa form.
+6. Thu cửa sổ xuống 375px: menu xuống dòng, thẻ và form về một cột.
 
+## Đưa vào repo hiện có
 
-4.Hướng dẫn nộp bài
+Bản React cũ nằm trên nhánh `submission/N23DCPT019-NguyenNgocGiaHan`. Nên tạo nhánh mới trước khi thay mã:
 
-_Bước 1: Fork repository
+```bash
+git switch submission/N23DCPT019-NguyenNgocGiaHan
+git switch -c submission-nextjs/N23DCPT019-NguyenNgocGiaHan
+```
 
-Truy cập repository bài tập của nhóm trên GitHub.
-Nhấn Fork → chọn tài khoản GitHub cá nhân của bạn.
-Sau khi Fork, bạn sẽ có một repository riêng trên tài khoản của mình.
+ZIP là dự án thay thế hoàn chỉnh. Trong thư mục repo, xóa `src/`, `index.html`, `vite.config.js` của Vite cũ rồi chép nội dung ZIP vào; giữ thư mục `.git`. Nếu có `node_modules` cũ, xóa và cài lại. Không chép cả thư mục bao ngoài làm lồng dự án.
 
-_Bước 2: Clone repository về máy
+Sau khi chạy thử:
 
-git clone LINK_REPOSITORY_FORK_CUA_BAN
-cd demo-routing
-pwd
-
-_Bước 3: Sau khi làm xong, Comit bài
-
+```bash
 git add .
-git commit -m "Complete React Router assignment"
+git commit -m "Migrate React profile to Next.js portfolio"
+git push -u origin submission-nextjs/N23DCPT019-NguyenNgocGiaHan
+```
 
-_Bước 4: Push bài lên github
+Đề bài: https://github.com/taidoannguyenthanh20-dotcom/baitapnhom2/blob/main/README.md
 
-git push origin submission/MSSV-HoTen
+Tài liệu: https://nextjs.org/docs/app/getting-started/layouts-and-pages
 
-_Bước 5: Tạo Pull Request
+## Kết quả kiểm tra bản bàn giao
 
-Sau khi push thành công:
-Vào repository GitHub cá nhân.
-Chọn Compare & pull request.
-Tạo Pull Request về repository của nhóm.
-Đặt tiêu đề:
-Submission - MSSV - Họ tên
-
-
+- `npm run build`: thành công với Next.js 16.3.5.
+- `npm run lint`: không lỗi, không cảnh báo mã nguồn.
+- Kiểm tra HTTP: các trang chính, ba dự án và năm ghi chép trả nội dung; đường dẫn không tồn tại có giao diện 404.
+- Chưa chạy được kiểm thử trình duyệt tự động vì môi trường không tải được Chromium. Cần thử trực tiếp form và responsive theo checklist trên.

@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-purple: #a98bff;
+  --color-pink: #ff84bd;
+  --color-muted: #bbb6ca;
+  --color-ink: #0d0b18;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #f7f4ff;
+    background:
+      radial-gradient(circle at top right, #7e52ff29, transparent 35%), #0d0b18;
+    overflow-wrap: anywhere;
+  }
+  :focus-visible {
+    outline: 2px solid #ff84bd;
+    outline-offset: 4px;
+  }
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-xl border border-white/15 bg-white/5 p-6;
+  }
+  .button {
+    @apply inline-flex items-center justify-center rounded-lg bg-linear-to-r from-purple to-pink px-5 py-3 font-bold text-ink hover:opacity-90;
+  }
+  .text-link {
+    @apply text-purple underline decoration-purple/40 underline-offset-4 hover:text-pink;
+  }
+  .field {
+    @apply mt-2 w-full rounded-lg border border-white/25 bg-ink px-4 py-3 text-white placeholder:text-muted/70;
+  }
+}
